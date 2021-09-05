@@ -16,19 +16,18 @@ python 3.7, scipy 1.1.0, pandas 0.25.3, torch 1.4.0, numpy 1.16.5, dill
 
 ### Reproductive code folder structure
 - data/
-    - refer to https://github.com/ycq091044/SafeDrug for more information. The preparation files here are a subset from https://github.com/ycq091044/SafeDrug, and the preprocessing file is a little bit different.
+    - !!! ``refer to https://github.com/ycq091044/SafeDrug for more information. The preparation files here are a subset from https://github.com/ycq091044/SafeDrug, and the preprocessing file is a little bit different.``
     - mapping files that collected from external sources
-        - drug-atc.csv: drug to atc code mapping file
+        - drug-atc.csv: this is a CID-ATC file, which gives the mapping from CID code to detailed ATC code (we should truncate later)
         - drug-DDI.csv: this a large file, could be downloaded from https://drive.google.com/file/d/1mnPc0O0ztz0fkv3HF-dpmBb8PLWsEoDz/view?usp=sharing
-        - ndc2atc_level4.csv: NDC code to ATC-4 code mapping file
-        - ndc2rxnorm_mapping.txt: NDC to xnorm mapping file
-        - idx2drug.pkl: drug ID to drug SMILES string dict
+        - ndc2atc_level4.csv: this is a NDC-RXCUI-ATC5 file, which gives the mapping information
+        - ndc2rxnorm_mapping.txt: rxnorm to RXCUI file
     - other files that generated from mapping files and MIMIC dataset (we attach these files here, user could use our provided scripts to generate)
         - data_final.pkl: intermediate result
         - ddi_A_final.pkl: ddi matrix
         - ehr_adj_final.pkl: used in GAMENet baseline (refer to https://github.com/sjy1203/GAMENet)
         - (important) records_final.pkl: 100 patient visit-level record samples. Under MIMIC Dataset policy, we are not allowed to distribute the datasets. Practioners could go to https://physionet.org/content/mimiciii/1.4/ and requrest the access to MIMIC-III dataset and then run our processing script to get the complete preprocessed dataset file.
-        - voc_final.pkl: diag/prod/med dictionary
+        - voc_final.pkl: diag/prod/med index to code dictionary
     - dataset processing scripts
         - preprocessing.py: is used to process the MIMIC original dataset
 - src/

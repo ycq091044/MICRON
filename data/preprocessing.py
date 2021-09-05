@@ -291,9 +291,9 @@ def get_ddi_matrix(records, med_voc, ddi_file):
 if __name__ == '__main__':
 
     # files can be downloaded from https://mimic.physionet.org/gettingstarted/dbsetup/
-    med_file = 'xxx/PRESCRIPTIONS.csv'
-    diag_file = 'xxx/DIAGNOSES_ICD.csv'
-    procedure_file = 'xxx/PROCEDURES_ICD.csv'
+    med_file = '/srv/local/data/physionet.org/files/mimiciii/1.4/PRESCRIPTIONS.csv'
+    diag_file = '/srv/local/data/physionet.org/files/mimiciii/1.4/DIAGNOSES_ICD.csv'
+    procedure_file = '/srv/local/data/physionet.org/files/mimiciii/1.4/PROCEDURES_ICD.csv'
 
     med_structure_file = 'idx2drug.pkl'
 
