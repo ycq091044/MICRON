@@ -16,7 +16,7 @@ python 3.7, scipy 1.1.0, pandas 0.25.3, torch 1.4.0, numpy 1.16.5, dill
 
 ### Reproductive code folder structure
 - data/
-    - !!! ``refer to https://github.com/ycq091044/SafeDrug for more information. The preparation files here are a subset from https://github.com/ycq091044/SafeDrug, and the preprocessing file is a little bit different.``
+    - !!! ``refer to`` https://github.com/ycq091044/SafeDrug ``for more information. The preparation files here are a subset from`` https://github.com/ycq091044/SafeDrug ``and the preprocessing file is a little bit different.``
     - mapping files that collected from external sources
         - drug-atc.csv: this is a CID-ATC file, which gives the mapping from CID code to detailed ATC code (we should truncate later)
         - drug-DDI.csv: this a large file, could be downloaded from https://drive.google.com/file/d/1mnPc0O0ztz0fkv3HF-dpmBb8PLWsEoDz/view?usp=sharing
