@@ -32,6 +32,7 @@ parser.add_argument('--Test', action='store_true', default=False, help="test mod
 parser.add_argument('--model_name', type=str, default=model_name, help="model name")
 parser.add_argument('--resume_path', type=str, default=resume_path, help='resume path')
 parser.add_argument('--lr', type=float, default=0.0005, help='learning rate')
+parser.add_argument('--cuda', type=int, default=1, help='which cuda')
 
 args = parser.parse_args()
 
@@ -109,7 +110,7 @@ def eval(model, data_eval, voc_size, epoch):
         llprint('\rtest step: {} / {}'.format(step, len(data_eval)))
 
     # ddi rate
-    ddi_rate = ddi_rate_score(smm_record, path='../data/ddi_A_final.pkl')
+    ddi_rate = ddi_rate_score(smm_record, path='../data/output/ddi_A_final.pkl')
 
     llprint('\nDDI Rate: {:.4}, Jaccard: {:.4},  AVG_F1: {:.4}, Add: {:.4}, Delete: {:.4}, AVG_MED: {:.4}\n'.format(
         np.float(ddi_rate), np.mean(ja), np.mean(avg_f1), np.mean(add_list), np.mean(delete_list), med_cnt / visit_cnt
@@ -120,11 +121,11 @@ def eval(model, data_eval, voc_size, epoch):
 def main():
 
     # load data
-    data_path = '../data/records_final.pkl'
-    voc_path = '../data/voc_final.pkl'
+    data_path = '../data/output/records_final.pkl'
+    voc_path = '../data/output/voc_final.pkl'
 
-    ddi_adj_path = '../data/ddi_A_final.pkl'
-    device = torch.device('cuda')
+    ddi_adj_path = '../data/output/ddi_A_final.pkl'
+    device = torch.device('cuda:{}'.format(args.cuda))
 
     data = dill.load(open(data_path, 'rb'))
     voc = dill.load(open(voc_path, 'rb'))
@@ -219,14 +220,14 @@ def main():
 def fine_tune(fine_tune_name=''):
 
     # load data
-    data_path = '../data/records_final.pkl'
-    voc_path = '../data/voc_final.pkl'
+    data_path = '../data/output/records_final.pkl'
+    voc_path = '../data/output/voc_final.pkl'
     device = torch.device('cpu:0')
 
     data = dill.load(open(data_path, 'rb'))
     voc = dill.load(open(voc_path, 'rb'))
     diag_voc, pro_voc, med_voc = voc['diag_voc'], voc['pro_voc'], voc['med_voc']
-    ddi_A = dill.load(open('../data/ddi_A_final.pkl', 'rb'))
+    ddi_A = dill.load(open('../data/output/ddi_A_final.pkl', 'rb'))
 
     split_point = int(len(data) * 2 / 3)
     data_train = data[:split_point]

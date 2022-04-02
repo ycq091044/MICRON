@@ -32,6 +32,7 @@ parser.add_argument('--resume_path', type=str, default=resume_path, help='resume
 parser.add_argument('--lr', type=float, default=2e-4, help='learning rate')
 parser.add_argument('--weight_decay', type=float, default=1e-5, help='learning rate')
 parser.add_argument('--dim', type=int, default=64, help='dimension')
+parser.add_argument('--cuda', type=int, default=1, help='which cuda')
 
 args = parser.parse_args()
 
@@ -116,7 +117,7 @@ def eval(model, data_eval, voc_size, epoch, val=0, threshold1=0.8, threshold2=0.
         llprint('\rtest step: {} / {}'.format(step, len(data_eval)))
 
     # ddi rate
-    ddi_rate = ddi_rate_score(smm_record, path='../data/ddi_A_final.pkl')
+    ddi_rate = ddi_rate_score(smm_record, path='../data/output/ddi_A_final.pkl')
 
     llprint('\nDDI Rate: {:.4}, Jaccard: {:.4},  AVG_F1: {:.4}, Add: {:.4}, Delete: {:.4}, AVG_MED: {:.4}\n'.format(
         ddi_rate, np.mean(ja), np.mean(avg_f1), np.mean(add_list), np.mean(delete_list), med_cnt / visit_cnt
@@ -131,11 +132,11 @@ def eval(model, data_eval, voc_size, epoch, val=0, threshold1=0.8, threshold2=0.
 def main():
     
     # load data
-    data_path = '../data/records_final.pkl'
-    voc_path = '../data/voc_final.pkl'
+    data_path = '../data/output/records_final.pkl'
+    voc_path = '../data/output/voc_final.pkl'
 
-    ddi_adj_path = '../data/ddi_A_final.pkl'
-    device = torch.device('cuda')
+    ddi_adj_path = '../data/output/ddi_A_final.pkl'
+    device = torch.device('cuda:{}'.format(args.cuda))
 
     ddi_adj = dill.load(open(ddi_adj_path, 'rb'))
     data = dill.load(open(data_path, 'rb')) 
@@ -231,7 +232,7 @@ def main():
                 y_pred_tmp[y_pred_tmp >= 0.5] = 1
                 y_pred_tmp[y_pred_tmp < 0.5] = 0
                 y_label = np.where(y_pred_tmp == 1)[0]
-                current_ddi_rate = ddi_rate_score([[y_label]], path='../data/ddi_A_final.pkl')
+                current_ddi_rate = ddi_rate_score([[y_label]], path='../data/output/ddi_A_final.pkl')
                 
                 # l2 = 0
                 # for p in model.parameters():
