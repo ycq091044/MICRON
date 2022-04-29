@@ -1,5 +1,4 @@
-# Code Instructions
-IJCAI2021 - MICRON - Medication Change Prediction
+# IJCAI2021 - MICRON - Medication Change Prediction Code
 
 ### Citation
 ```bibtex
@@ -13,34 +12,34 @@ IJCAI2021 - MICRON - Medication Change Prediction
 ```
 
 ### Folder Specification
-- data
+- ```data```
     - **processing.py**: our data preprocessing file.
-    - Input (extracted from external resources)
-        - PRESCRIPTIONS.csv: the prescription file from MIMIC-III raw dataset
-        - DIAGNOSES_ICD.csv: the diagnosis file from MIMIC-III raw dataset
-        - PROCEDURES_ICD.csv: the procedure file from MIMIC-III raw dataset
-        - RXCUI2atc4.csv: this is a NDC-RXCUI-ATC4 mapping file, and we only need the RXCUI to ATC4 mapping. This file is obtained from https://github.com/sjy1203/GAMENet, where the name is called ndc2atc_level4.csv.
-        - drug-atc.csv: this is a CID-ATC file, which gives the mapping from CID code to detailed ATC code (we will use the prefix of the ATC code latter for aggregation). This file is obtained from https://github.com/sjy1203/GAMENet.
-        - rxnorm2RXCUI.txt: rxnorm to RXCUI mapping file. This file is obtained from https://github.com/sjy1203/GAMENet, where the name is called ndc2rxnorm_mapping.csv.
-        - drug-DDI.csv: this a large file, containing the drug DDI information, coded by CID. The file could be downloaded from https://drive.google.com/file/d/1mnPc0O0ztz0fkv3HF-dpmBb8PLWsEoDz/view?usp=sharing
-    - Output
-        - ddi_A_final.pkl: ddi adjacency matrix
-        - ddi_matrix_H.pkl: H mask structure (This file is created by **ddi_mask_H.py**)
-        - ehr_adj_final.pkl: used in GAMENet baseline (if two drugs appear in one set, then they are connected)
-        - records_final.pkl: The final diagnosis-procedure-medication EHR records of each patient, used for train/val/test split.
-        - voc_final.pkl: diag/prod/med index to code dictionary
-- src/
-    - MICRON.py: our model
+    - ```Input``` (extracted from external resources)
+        - **PRESCRIPTIONS.csv**: the prescription file from MIMIC-III raw dataset
+        - **DIAGNOSES_ICD.csv**: the diagnosis file from MIMIC-III raw dataset
+        - **PROCEDURES_ICD.csv**: the procedure file from MIMIC-III raw dataset
+        - **RXCUI2atc4.csv**: this is a NDC-RXCUI-ATC4 mapping file, and we only need the RXCUI to ATC4 mapping. This file is obtained from https://github.com/sjy1203/GAMENet, where the name is called ndc2atc_level4.csv.
+        - **drug-atc.csv**: this is a CID-ATC file, which gives the mapping from CID code to detailed ATC code (we will use the prefix of the ATC code latter for aggregation). This file is obtained from https://github.com/sjy1203/GAMENet.
+        - **rxnorm2RXCUI.txt**: rxnorm to RXCUI mapping file. This file is obtained from https://github.com/sjy1203/GAMENet, where the name is called ndc2rxnorm_mapping.csv.
+        - **drug-DDI.csv**: this a large file, containing the drug DDI information, coded by CID. The file could be downloaded from https://drive.google.com/file/d/1mnPc0O0ztz0fkv3HF-dpmBb8PLWsEoDz/view?usp=sharing
+    - ```Output```
+        - **ddi_A_final.pkl**: ddi adjacency matrix
+        - **ddi_matrix_H.pkl**: H mask structure (This file is created by **ddi_mask_H.py**)
+        - **ehr_adj_final.pkl**: used in GAMENet baseline (if two drugs appear in one set, then they are connected)
+        - **records_final.pkl**: The final diagnosis-procedure-medication EHR records of each patient, used for train/val/test split.
+        - **voc_final.pkl**: diag/prod/med index to code dictionary
+- ```src```/
+    - **MICRON.py**: our model
     - baselines:
-        - GAMENet.py
-        - Leap.py
-        - Retain.py
-        - DualNN.py
-		- SimNN.py
+        - **GAMENet.py**
+        - **Leap.py**
+        - **Retain.py**
+        - **DualNN.py**
+		- **SimNN.py**
     - setting file
-        - model.py
-        - util.py
-        - layer.py
+        - **model.py**
+        - **util.py**
+        - **layer.py**
 
 > Dataset statistics can be found below
 
@@ -64,34 +63,15 @@ IJCAI2021 - MICRON - Medication Change Prediction
 
 - install the following package
 ```python
-pip install scikit-learn, dill, dnc
+pip install -r requirments.txt
 ```
-Note that torch setup may vary according to GPU hardware. Generally, run the following
-```python
-pip install torch
-```
-If you are using RTX 3090, then plase use the following, which is the right way to make torch work.
+
+If you are using RTX 3090, then plase use the following to install ```torch```, which is the right way to make torch work.
 ```python
 python3 -m pip install --user torch==1.8.0+cu111 torchvision==0.9.0+cu111 torchaudio==0.8.0 -f https://download.pytorch.org/whl/torch_stable.html
 ```
 
-- install other packages if necessary
-```python
-pip install [xxx] # any required package if necessary, maybe do not specify the version
-```
-
-Here is a list of reference versions for all package
-
-```shell
-pandas: 1.3.0
-dill: 0.3.4
-torch: 1.8.0+cu111
-rdkit: 2021.03.4
-scikit-learn: 0.24.2
-numpy: 1.21.1
-```
-
-Let us know any of the package dependency issue. Please pay special attention to pandas, some report that a high version of pandas would raise error for dill loading.
+Let us know any of the package dependency issue. Please pay special attention to ```pandas```, some report that a high version of pandas would raise error for dill loading.
 
 
 ### Step 2: Data Processing
@@ -157,4 +137,8 @@ optional arguments:
                         learning rate
   --dim DIM             dimension
 ```
+
+### This resource might be useful!
+Special thanks to Xavier Xie and Chen Xi, who reproduced our results with a nicer README in https://github.com/yuheng222/CS598-DL4H-MICRON.
+
 
